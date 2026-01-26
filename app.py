@@ -10,6 +10,9 @@ app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
 
 database_url = os.environ.get("DATABASE_URL")
 if database_url:
+    # DigitalOcean and some providers use postgres:// but SQLAlchemy requires postgresql://
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 else:
     raise RuntimeError("DATABASE_URL environment variable is required")
