@@ -19,6 +19,8 @@ RUN python -m pip install --break-system-packages flask flask-sqlalchemy psycopg
 
 RUN npm run build
 
-EXPOSE 5000
+EXPOSE 8089
+
+ENV PORT=8089
 
 CMD ["npm", "run", "start"]
