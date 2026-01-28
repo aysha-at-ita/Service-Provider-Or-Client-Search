@@ -19,8 +19,10 @@ RUN python -m pip install --break-system-packages flask flask-sqlalchemy psycopg
 
 RUN npm run build
 
+RUN ls -la && ls -la dist/
+
 EXPOSE 8089
 
 ENV PORT=8089
 
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "cd /app && node dist/index.cjs"]

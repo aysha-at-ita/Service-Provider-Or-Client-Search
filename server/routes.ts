@@ -2,16 +2,22 @@ import type { Express, Request, Response } from "express";
 import type { Server } from "http";
 import { spawn, ChildProcess } from "child_process";
 import http from "http";
+import path from "path";
 
 let flaskProcess: ChildProcess | null = null;
 
 function startFlaskServer(): Promise<void> {
   return new Promise((resolve) => {
     console.log("Starting Flask server on port 5001...");
+    console.log(`[flask] Current working directory: ${process.cwd()}`);
     
-    flaskProcess = spawn("python", ["app.py"], {
+    const appPath = path.resolve(process.cwd(), "app.py");
+    console.log(`[flask] Flask app path: ${appPath}`);
+    
+    flaskProcess = spawn("python", [appPath], {
       stdio: ["ignore", "pipe", "pipe"],
       env: { ...process.env },
+      cwd: process.cwd(),
     });
 
     flaskProcess.stdout?.on("data", (data) => {
