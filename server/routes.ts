@@ -82,6 +82,10 @@ export async function registerRoutes(
 ): Promise<Server> {
   await startFlaskServer();
 
+  app.get("/health", (_req, res) => {
+    res.json({ status: "ok", flask: flaskProcess !== null });
+  });
+
   app.post("/api/auth/login", (req, res) => proxyToFlask(req, res));
   app.post("/api/auth/register", (req, res) => proxyToFlask(req, res));
   app.get("/api/auth/user", (req, res) => proxyToFlask(req, res));
